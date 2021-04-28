@@ -10,17 +10,42 @@ public class PlayerController : MonoBehaviour
     // Declaring a public float for the speed of the left to right
     public float m_SpeedX;
 
+    //Start of Movement Variables
+
     //Declaring a public move speed float variable
     public float m_Speed;
+
+    [SerializeField]
+    float m_Horizontal_Movement;
+    [SerializeField]
+    float m_Vertical_Movement;
+    [SerializeField]
+    float CollisionDistanceCheck = 0f;
+
+    private Vector3 m_Move;
+    private bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack;
+
+    private Transform m_Front;
+    private Transform m_Back;
+    private Transform m_Left;
+    private Transform m_Right;
+
+    //End of Movement Variables
 
     public float m_VerticalVelocity;
     public float m_JumpForce = 100f;
 
     private float m_Gravity = 14f;
+    private float m_JumpCounter = 0;
     public bool m_IsGrounded;
 
-    private float m_Vertical_Movement;
-    private float m_Horizontal_Movement;
+    private void Awake()
+    {
+        m_Front = this.gameObject.transform.GetChild(1);
+        m_Back = this.gameObject.transform.GetChild(2);
+        m_Left = this.gameObject.transform.GetChild(3);
+        m_Right = this.gameObject.transform.GetChild(4);
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -48,6 +73,8 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKey(KeyCode.Space))
             {
                 m_VerticalVelocity = m_JumpForce;
+                m_JumpCounter = 1;
+                
             }
             else
             {
@@ -62,9 +89,22 @@ public class PlayerController : MonoBehaviour
         {
             m_VerticalVelocity -= m_Gravity * Time.deltaTime;
         }
+        
 
         Vector3 theVerticalVelocity = new Vector3(0f, m_VerticalVelocity, 0f);
         transform.Translate(theVerticalVelocity * Time.deltaTime);
+
+        //if (!m_IsGrounded)
+        //{
+        //    if (m_JumpCounter == 1)
+        //    {
+        //        if (Input.GetKey(KeyCode.Space))
+        //        {
+        //            m_VerticalVelocity = m_JumpForce;
+        //            m_JumpCounter = 0;
+        //        }
+        //    }
+        //}
     }
 
     private void FixedUpdate()
@@ -73,11 +113,7 @@ public class PlayerController : MonoBehaviour
         m_Vertical_Movement = Input.GetAxis("Vertical") * m_Speed;
         m_Horizontal_Movement = Input.GetAxis("Horizontal") * m_Speed;
 
-        Vector3 move = new Vector3(m_Horizontal_Movement, 0f, m_Vertical_Movement);
-        Vector3.Normalize(move);
-        move *= Time.deltaTime;
-
-        transform.Translate(move);
+        Move(m_Horizontal_Movement, m_Vertical_Movement);
 
         //Player jump physics section
         RaycastHit hit;
@@ -109,5 +145,127 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-   
+    private void OnCollisionEnter(Collision collision)
+    {
+
+        if (collision.collider.tag == "StoppingCollidable")
+        {
+            m_Colliding = true;
+        }
+
+
+    }
+
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.collider.tag == "StoppingCollidable")
+        {
+            ContactPoint[] contacts = new ContactPoint[5];
+
+            int numContacts = collision.GetContacts(contacts);
+            for (int i = 0; i < numContacts; i++)
+            {
+                if (Vector3.Distance(contacts[i].point, m_Front.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingFront = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_Front.position) > CollisionDistanceCheck)
+                {
+                    m_CollidingFront = false;
+                }
+
+                if (Vector3.Distance(contacts[i].point, m_Back.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingBack = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_Back.position) > CollisionDistanceCheck)
+                {
+                    m_CollidingBack = false;
+                }
+
+                if (Vector3.Distance(contacts[i].point, m_Left.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingLeft = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_Left.position) > CollisionDistanceCheck)
+                {
+                    m_CollidingLeft = false;
+                }
+
+                if (Vector3.Distance(contacts[i].point, m_Right.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingRight = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_Right.position) > CollisionDistanceCheck)
+                {
+                    m_CollidingRight = false;
+                }
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.tag == "StoppingCollidable")
+        {
+            m_Colliding = false;
+            m_CollidingFront = false;
+            m_CollidingBack = false;
+            m_CollidingLeft = false;
+            m_CollidingRight = false;
+        }
+    }
+
+    private void Move(float Hori, float Vert)
+    {
+
+        // check collision if moving
+        if (m_Colliding)
+        {
+            float clampedVert = Vert;
+            float clampedHori = Hori;
+            if (m_CollidingFront && m_CollidingBack)
+            {
+                clampedVert = Mathf.Clamp(Vert, 0f, 0f);
+            }
+            else if (m_CollidingFront)
+            {
+                clampedVert = Mathf.Clamp(Vert, -1f, 0f);
+            }
+            else if (m_CollidingBack)
+            {
+                clampedVert = Mathf.Clamp(Vert, 0f, 1f);
+            }
+
+            if (m_CollidingLeft && m_CollidingRight)
+            {
+                clampedHori = Mathf.Clamp(Hori, 0f, 0f);
+            }
+            else if (m_CollidingLeft)
+            {
+                clampedHori = Mathf.Clamp(Hori, 0f, 1f);
+            }
+            else if (m_CollidingRight)
+            {
+                clampedHori = Mathf.Clamp(Hori, -1f, 0f);
+            }
+
+            m_Move = new Vector3(clampedHori, 0f, clampedVert);
+            Vector3.Normalize(m_Move);
+            m_Move *= Time.deltaTime;
+
+            transform.Translate(m_Move);
+
+        }
+        else
+        {
+            m_Move = new Vector3(Hori, 0f, Vert);
+            Vector3.Normalize(m_Move);
+            m_Move *= Time.deltaTime;
+
+            transform.Translate(m_Move);
+        }
+    }
+
+
 }
