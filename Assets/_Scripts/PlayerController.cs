@@ -23,7 +23,8 @@ public class PlayerController : MonoBehaviour
     float CollisionDistanceCheck = 0f;
 
     private Vector3 m_Move;
-    private bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack;
+    [SerializeField]
+    bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack;
 
     private Transform m_Front;
     private Transform m_Back;
@@ -147,10 +148,16 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        Debug.Log("I collided with " + collision.gameObject.name);
 
         if (collision.collider.tag == "StoppingCollidable")
         {
             m_Colliding = true;
+        }
+
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Terrain")
+        {
+            Debug.Log("We hit the terrain");
         }
 
 
@@ -208,6 +215,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.tag == "StoppingCollidable")
         {
+
             m_Colliding = false;
             m_CollidingFront = false;
             m_CollidingBack = false;
