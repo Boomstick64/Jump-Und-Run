@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
 
     private Vector3 m_Move;
     [SerializeField]
-    bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack;
+    bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingAny;
 
     private Transform m_Front;
     private Transform m_Back;
@@ -111,8 +111,8 @@ public class PlayerController : MonoBehaviour
     private void FixedUpdate()
     {
         // Player movement section
-        m_Vertical_Movement = Input.GetAxis("Vertical") * m_Speed;
-        m_Horizontal_Movement = Input.GetAxis("Horizontal") * m_Speed;
+        m_Vertical_Movement = Input.GetAxis("Vertical") /* m_Speed*/;
+        m_Horizontal_Movement = Input.GetAxis("Horizontal") /* m_Speed*/;
 
         Move(m_Horizontal_Movement, m_Vertical_Movement);
 
@@ -122,28 +122,49 @@ public class PlayerController : MonoBehaviour
         LayerMask mask = LayerMask.GetMask("Player");
         mask = ~mask;
 
-        if (Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, mask))
+        Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, mask);
+
+        if (m_CollidingAny)
         {
-      
+            if (hit.distance <= 2f || hit.distance == 2f)
+            {
+                m_IsGrounded = true;
+            }
+            else if (hit.distance < 2f)
+            {
+                float difference;
+                Vector3 playerPosition;
+                difference = 2f - hit.distance;
+                playerPosition = new Vector3(0f, hit.distance + difference, 0f);
+                transform.position += playerPosition;
+                m_IsGrounded = true;
+            }
+            else
+            {
+                m_IsGrounded = false;
+            }
+        }
+        else if (!m_CollidingAny)
+        {
+            if (hit.distance <= 1f || hit.distance == 1f)
+            {
+                m_IsGrounded = true;
+            }
+            else if (hit.distance < 1f)
+            {
+                float difference;
+                Vector3 playerPosition;
+                difference = 1f - hit.distance;
+                playerPosition = new Vector3(0f, hit.distance + difference, 0f);
+                transform.position += playerPosition;
+                m_IsGrounded = true;
+            }
+            else
+            {
+                m_IsGrounded = false;
+            }
         }
 
-        if (hit.distance <= 1f || hit.distance == 1f)
-        {
-            m_IsGrounded = true;
-        }
-        else if (hit.distance < 1)
-        {
-            float difference;
-            Vector3 playerPosition;
-            difference = 1 - hit.distance;
-            playerPosition = new Vector3(0f, hit.distance + difference, 0f);
-            transform.position += playerPosition;
-            m_IsGrounded = true;
-        }
-        else
-        {
-            m_IsGrounded = false;
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -160,7 +181,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("We hit the terrain");
         }
 
-
+        m_CollidingAny = true;
     }
 
     private void OnCollisionStay(Collision collision)
@@ -222,6 +243,8 @@ public class PlayerController : MonoBehaviour
             m_CollidingLeft = false;
             m_CollidingRight = false;
         }
+
+        m_CollidingAny = false;
     }
 
     private void Move(float Hori, float Vert)
@@ -258,7 +281,7 @@ public class PlayerController : MonoBehaviour
                 clampedHori = Mathf.Clamp(Hori, -1f, 0f);
             }
 
-            m_Move = new Vector3(clampedHori, 0f, clampedVert);
+            m_Move = new Vector3(clampedHori, 0f, clampedVert) * m_Speed;
             Vector3.Normalize(m_Move);
             m_Move *= Time.deltaTime;
 
@@ -267,7 +290,7 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            m_Move = new Vector3(Hori, 0f, Vert);
+            m_Move = new Vector3(Hori, 0f, Vert) * m_Speed;
             Vector3.Normalize(m_Move);
             m_Move *= Time.deltaTime;
 
