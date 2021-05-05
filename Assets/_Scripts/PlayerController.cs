@@ -37,7 +37,8 @@ public class PlayerController : MonoBehaviour
     public float m_JumpForce = 100f;
 
     private float m_Gravity = 14f;
-    private float m_JumpCounter = 0;
+    private float m_JumpSuccession = 0f;
+    public int m_JumpCounter = 0;
     public bool m_IsGrounded;
 
     private void Awake()
@@ -70,16 +71,27 @@ public class PlayerController : MonoBehaviour
         // Player Jump section
         if (m_IsGrounded)
         {
-            // m_VerticalVelocity = -m_Gravity * Time.deltaTime;
+            
             if (Input.GetKey(KeyCode.Space))
             {
                 m_VerticalVelocity = m_JumpForce;
                 m_JumpCounter = 1;
+                m_JumpSuccession = Time.time;
                 
             }
             else
             {
                 m_VerticalVelocity = 0f;
+                m_JumpCounter = 0;
+            }
+        }
+        else if (!m_IsGrounded && Input.GetKeyDown(KeyCode.Space) && m_JumpCounter == 1)
+        {
+            if (Time.time - m_JumpSuccession < 3f)
+            {
+                m_VerticalVelocity += m_JumpForce / 2f;
+                m_JumpCounter = 0;
+                m_JumpSuccession = 0f;
             }
         }
         else if (!m_IsGrounded && m_VerticalVelocity <= 0f)
@@ -91,9 +103,6 @@ public class PlayerController : MonoBehaviour
             m_VerticalVelocity -= m_Gravity * Time.deltaTime;
         }
         
-
-        Vector3 theVerticalVelocity = new Vector3(0f, m_VerticalVelocity, 0f);
-        transform.Translate(theVerticalVelocity * Time.deltaTime);
 
         //if (!m_IsGrounded)
         //{
@@ -113,6 +122,9 @@ public class PlayerController : MonoBehaviour
         // Player movement section
         m_Vertical_Movement = Input.GetAxis("Vertical") /* m_Speed*/;
         m_Horizontal_Movement = Input.GetAxis("Horizontal") /* m_Speed*/;
+
+        Vector3 theVerticalVelocity = new Vector3(0f, m_VerticalVelocity, 0f);
+        transform.Translate(theVerticalVelocity * Time.deltaTime);
 
         Move(m_Horizontal_Movement, m_Vertical_Movement);
 
@@ -169,7 +181,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("I collided with " + collision.gameObject.name);
+       // Debug.Log("I collided with " + collision.gameObject.name);
 
         if (collision.collider.tag == "StoppingCollidable")
         {
@@ -178,7 +190,7 @@ public class PlayerController : MonoBehaviour
 
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Terrain")
         {
-            Debug.Log("We hit the terrain");
+           // Debug.Log("We hit the terrain");
         }
 
         m_CollidingAny = true;
