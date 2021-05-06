@@ -1,9 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
+ 
+    //Declaring health variables
+    private float m_CurrentHealth;
+    public float m_MaxHealth;
+    private float m_Damage;
+    private float m_OriginalAirTimeToDamage;
+    private float m_AirTimeToDamage = 3;
+    private bool m_ToDamage;
+
+    public float currentHealth { get { return m_CurrentHealth; } }
+
     // Declaring a public float for turning left to right
     public float m_HorizontalTurn;
 
@@ -52,12 +64,28 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       
+        Cursor.lockState = CursorLockMode.Locked;
+        m_CurrentHealth = m_MaxHealth;
+        m_OriginalAirTimeToDamage = m_AirTimeToDamage;
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (m_CurrentHealth > m_MaxHealth)
+        {
+            m_CurrentHealth = m_MaxHealth;
+        }
+        else if (m_CurrentHealth < 0f)
+        {
+            m_CurrentHealth = 0f;
+        }
+
+        if (m_ToDamage)
+        {
+            m_AirTimeToDamage -= Time.deltaTime;
+        }
+
         //Player rotation section
         // Setting m_HorizontalTurn to the mouse moving along the X axis * by the speed
         m_HorizontalTurn = m_SpeedX * Input.GetAxis("Mouse X");
@@ -136,6 +164,13 @@ public class PlayerController : MonoBehaviour
 
         Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, mask);
 
+        if (m_AirTimeToDamage <= 0f && hit.distance > 30f)
+        {
+            m_Damage = hit.distance;
+            m_AirTimeToDamage = m_OriginalAirTimeToDamage;
+            
+        }
+
         if (m_CollidingAny)
         {
             if (hit.distance <= 2f || hit.distance == 2f)
@@ -181,7 +216,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-       // Debug.Log("I collided with " + collision.gameObject.name);
+        m_ToDamage = false;
+        // Debug.Log("I collided with " + collision.gameObject.name);
+        m_CurrentHealth -= m_Damage;
 
         if (collision.collider.tag == "StoppingCollidable")
         {
@@ -246,6 +283,9 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionExit(Collision collision)
     {
+        m_Damage = 0f;
+        m_ToDamage = true;
+
         if (collision.collider.tag == "StoppingCollidable")
         {
 
