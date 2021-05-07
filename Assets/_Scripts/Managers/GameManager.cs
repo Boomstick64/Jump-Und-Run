@@ -9,20 +9,29 @@ public class GameManager : MonoBehaviour
     // declaring the variable to that will store the slider infomation
     public Slider m_Slider;
 
+    //Declaring Health indidcator for text Variable
+    public Text m_HealthIndicator;
+    private float m_RoundedCurrentHealth;
+    private float m_RoundedMaxHealth;
+
     //Getting the current health of the player
     private PlayerController m_PlayerController;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_PlayerController = GameObject.Find("Player").GetComponent<PlayerController>();
         m_Slider.maxValue = m_PlayerController.m_MaxHealth;
+        m_HealthIndicator.text = "";
+        m_RoundedMaxHealth = UnityEngine.Mathf.Round(m_PlayerController.m_MaxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
         m_Slider.value = m_PlayerController.currentHealth;
-
+        m_RoundedCurrentHealth = UnityEngine.Mathf.Round(m_RoundedCurrentHealth);
+        m_HealthIndicator.text = "Health: " + m_RoundedCurrentHealth.ToString() + "/" + m_RoundedMaxHealth.ToString();
         if (Input.GetKeyDown(KeyCode.R))
         {
             //SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene().buildIndex);

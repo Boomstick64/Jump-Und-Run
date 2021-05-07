@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour
     public float m_MaxHealth;
     private float m_Damage;
     private float m_OriginalAirTimeToDamage;
-    private float m_AirTimeToDamage = 3;
+    private float m_AirTimeToDamage = 2;
     private bool m_ToDamage;
 
     public float currentHealth { get { return m_CurrentHealth; } }
@@ -27,16 +27,12 @@ public class PlayerController : MonoBehaviour
     //Declaring a public move speed float variable
     public float m_Speed;
 
-    [SerializeField]
-    float m_Horizontal_Movement;
-    [SerializeField]
-    float m_Vertical_Movement;
-    [SerializeField]
-    float CollisionDistanceCheck = 0f;
+    private float m_Horizontal_Movement;
+    private float m_Vertical_Movement;
+    private float CollisionDistanceCheck = 0.7f;
 
     private Vector3 m_Move;
-    [SerializeField]
-    bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingAny;
+    [SerializeField] bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingAny;
 
     private Transform m_Front;
     private Transform m_Back;
@@ -45,13 +41,13 @@ public class PlayerController : MonoBehaviour
 
     //End of Movement Variables
 
-    public float m_VerticalVelocity;
+    private float m_VerticalVelocity;
     public float m_JumpForce = 100f;
 
     private float m_Gravity = 14f;
     private float m_JumpSuccession = 0f;
-    public int m_JumpCounter = 0;
-    public bool m_IsGrounded;
+    private int m_JumpCounter = 0;
+    private bool m_IsGrounded;
 
     private void Awake()
     {
@@ -85,7 +81,7 @@ public class PlayerController : MonoBehaviour
         {
             m_AirTimeToDamage -= Time.deltaTime;
         }
-
+        Debug.Log(m_AirTimeToDamage);
         //Player rotation section
         // Setting m_HorizontalTurn to the mouse moving along the X axis * by the speed
         m_HorizontalTurn = m_SpeedX * Input.GetAxis("Mouse X");
@@ -167,8 +163,6 @@ public class PlayerController : MonoBehaviour
         if (m_AirTimeToDamage <= 0f && hit.distance > 30f)
         {
             m_Damage = hit.distance;
-            m_AirTimeToDamage = m_OriginalAirTimeToDamage;
-            
         }
 
         if (m_CollidingAny)
@@ -219,6 +213,7 @@ public class PlayerController : MonoBehaviour
         m_ToDamage = false;
         // Debug.Log("I collided with " + collision.gameObject.name);
         m_CurrentHealth -= m_Damage;
+        m_AirTimeToDamage = m_OriginalAirTimeToDamage;
 
         if (collision.collider.tag == "StoppingCollidable")
         {
