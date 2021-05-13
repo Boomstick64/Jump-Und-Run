@@ -22,6 +22,10 @@ public class PlayerController : MonoBehaviour
     // Declaring a public float for the speed of the left to right
     public float m_SpeedX;
 
+    //Thud audio
+    private AudioSource m_Source;
+    private AudioClip m_Clip;
+
     //Start of Movement Variables
 
     //Declaring a public move speed float variable
@@ -63,6 +67,9 @@ public class PlayerController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         m_CurrentHealth = m_MaxHealth;
         m_OriginalAirTimeToDamage = m_AirTimeToDamage;
+        m_Source = GetComponent<AudioSource>();
+        m_Clip = m_Source.clip;
+        m_Source.volume = 0.07f;
     }
 
     // Update is called once per frame
@@ -210,6 +217,7 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
+        m_Source.Play();
         m_ToDamage = false;
         // Debug.Log("I collided with " + collision.gameObject.name);
         m_CurrentHealth -= m_Damage;
