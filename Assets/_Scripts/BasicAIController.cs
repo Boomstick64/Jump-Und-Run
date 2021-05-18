@@ -28,9 +28,12 @@ public class BasicAIController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
+
         if (m_InBattleZone)
         {
             m_Navemesh.SetDestination(m_Player.transform.position);
+            Debug.Log("It's true");
         }
     }
 

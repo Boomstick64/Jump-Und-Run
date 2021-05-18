@@ -33,15 +33,16 @@ public class PlayerController : MonoBehaviour
 
     private float m_Horizontal_Movement;
     private float m_Vertical_Movement;
-    private float CollisionDistanceCheck = 0.7f;
+    private float CollisionDistanceCheck = 0.75f;
 
     private Vector3 m_Move;
-    [SerializeField] bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingAny;
+    [SerializeField] bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingBottom, m_CollidingAny;
 
     private Transform m_Front;
     private Transform m_Back;
     private Transform m_Left;
     private Transform m_Right;
+    private Transform m_Bottom;
 
     //End of Movement Variables
 
@@ -52,6 +53,8 @@ public class PlayerController : MonoBehaviour
     private float m_JumpSuccession = 0f;
     private int m_JumpCounter = 0;
     private bool m_IsGrounded;
+    private bool m_SetPlayerPosition;
+    private RaycastHit m_hitBottom;
 
     private void Awake()
     {
@@ -59,6 +62,7 @@ public class PlayerController : MonoBehaviour
         m_Back = this.gameObject.transform.GetChild(2);
         m_Left = this.gameObject.transform.GetChild(3);
         m_Right = this.gameObject.transform.GetChild(4);
+        m_Bottom = this.gameObject.transform.GetChild(5);
     }
 
     // Start is called before the first frame update
@@ -70,6 +74,7 @@ public class PlayerController : MonoBehaviour
         m_Source = GetComponent<AudioSource>();
         m_Clip = m_Source.clip;
         m_Source.volume = 0.07f;
+        m_SetPlayerPosition = false;
     }
 
     // Update is called once per frame
@@ -88,7 +93,7 @@ public class PlayerController : MonoBehaviour
         {
             m_AirTimeToDamage -= Time.deltaTime;
         }
-        Debug.Log(m_AirTimeToDamage);
+        // Debug.Log(m_AirTimeToDamage);
         //Player rotation section
         // Setting m_HorizontalTurn to the mouse moving along the X axis * by the speed
         m_HorizontalTurn = m_SpeedX * Input.GetAxis("Mouse X");
@@ -133,8 +138,19 @@ public class PlayerController : MonoBehaviour
         {
             m_VerticalVelocity -= m_Gravity * Time.deltaTime;
         }
-        
 
+        if  (m_VerticalVelocity < 0f)
+        {
+            if (m_SetPlayerPosition || m_CollidingBottom)
+            {
+                m_VerticalVelocity = 0f;
+                float difference;
+                Vector3 playerPosition;
+                difference = 2f - m_hitBottom.distance;
+                playerPosition = new Vector3(0f, m_hitBottom.distance + difference, 0f);
+                transform.position += playerPosition;
+            }
+        }
         //if (!m_IsGrounded)
         //{
         //    if (m_JumpCounter == 1)
@@ -160,50 +176,48 @@ public class PlayerController : MonoBehaviour
         Move(m_Horizontal_Movement, m_Vertical_Movement);
 
         //Player jump physics section
-        RaycastHit hit;
+        
+        
 
         LayerMask mask = LayerMask.GetMask("Player");
         mask = ~mask;
 
-        Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out hit, Mathf.Infinity, mask);
+        Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out m_hitBottom, Mathf.Infinity, mask);
 
-        if (m_AirTimeToDamage <= 0f && hit.distance > 30f)
+        if (m_AirTimeToDamage <= 0f && m_hitBottom.distance > 30f)
         {
-            m_Damage = hit.distance;
+            m_Damage = m_hitBottom.distance;
         }
 
         if (m_CollidingAny)
         {
-            if (hit.distance <= 2f || hit.distance == 2f)
+            if (m_hitBottom.distance <= 2f || m_hitBottom.distance == 2f)
             {
                 m_IsGrounded = true;
             }
-            else if (hit.distance < 2f)
+            else if (m_hitBottom.distance < 2f)
             {
-                float difference;
-                Vector3 playerPosition;
-                difference = 2f - hit.distance;
-                playerPosition = new Vector3(0f, hit.distance + difference, 0f);
-                transform.position += playerPosition;
+                m_SetPlayerPosition = true;
                 m_IsGrounded = true;
             }
             else
             {
                 m_IsGrounded = false;
             }
+
         }
         else if (!m_CollidingAny)
         {
-            if (hit.distance <= 1f || hit.distance == 1f)
+            if (m_hitBottom.distance <= 1f || m_hitBottom.distance == 1f)
             {
                 m_IsGrounded = true;
             }
-            else if (hit.distance < 1f)
+            else if (m_hitBottom.distance < 1f)
             {
                 float difference;
                 Vector3 playerPosition;
-                difference = 1f - hit.distance;
-                playerPosition = new Vector3(0f, hit.distance + difference, 0f);
+                difference = 1f - m_hitBottom.distance;
+                playerPosition = new Vector3(0f, m_hitBottom.distance + difference, 0f);
                 transform.position += playerPosition;
                 m_IsGrounded = true;
             }
@@ -211,6 +225,7 @@ public class PlayerController : MonoBehaviour
             {
                 m_IsGrounded = false;
             }
+
         }
 
     }
@@ -240,7 +255,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.collider.tag == "StoppingCollidable")
         {
-            ContactPoint[] contacts = new ContactPoint[5];
+            ContactPoint[] contacts = new ContactPoint[7];
 
             int numContacts = collision.GetContacts(contacts);
             for (int i = 0; i < numContacts; i++)
@@ -280,6 +295,15 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingRight = false;
                 }
+                
+                if (Vector3.Distance(contacts[i].point, m_Bottom.position) <  0.3f)
+                {
+                    m_CollidingBottom = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_Bottom.position) > 0.3f)
+                {
+                    m_CollidingBottom = false;
+                }
             }
         }
     }
@@ -297,6 +321,7 @@ public class PlayerController : MonoBehaviour
             m_CollidingBack = false;
             m_CollidingLeft = false;
             m_CollidingRight = false;
+            m_CollidingBottom = false;
         }
 
         m_CollidingAny = false;

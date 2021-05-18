@@ -10,6 +10,7 @@ public class BattleZoneTrigger : MonoBehaviour
     void Start()
     {
         m_Player = GameObject.Find("Player");
+        m_InZone = GameObject.Find("Enemy Test 1").GetComponent<BasicAIController>();
     }
 
     // Update is called once per frame
@@ -20,7 +21,7 @@ public class BattleZoneTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other == m_Player)
+        if (other.gameObject == m_Player)
         {
             m_InZone.m_inbattlezone = true;
         }
@@ -28,7 +29,7 @@ public class BattleZoneTrigger : MonoBehaviour
 
     private void OnTriggerExit(Collider other)
     {
-        if (other == m_Player)
+        if (other.gameObject == m_Player)
         {
             m_InZone.m_inbattlezone = false;
         }
