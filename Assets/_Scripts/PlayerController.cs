@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
- 
+
     //Declaring health variables
     private float m_CurrentHealth;
     public float m_MaxHealth;
@@ -33,7 +33,7 @@ public class PlayerController : MonoBehaviour
 
     private float m_Horizontal_Movement;
     private float m_Vertical_Movement;
-    private float CollisionDistanceCheck = 0.75f;
+    private float CollisionDistanceCheck = 0.77f;
 
     private Vector3 m_Move;
     [SerializeField] bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingBottom, m_CollidingAny;
@@ -107,13 +107,13 @@ public class PlayerController : MonoBehaviour
         // Player Jump section
         if (m_IsGrounded)
         {
-            
+
             if (Input.GetKey(KeyCode.Space))
             {
                 m_VerticalVelocity = m_JumpForce;
                 m_JumpCounter = 1;
                 m_JumpSuccession = Time.time;
-                
+
             }
             else
             {
@@ -139,7 +139,7 @@ public class PlayerController : MonoBehaviour
             m_VerticalVelocity -= m_Gravity * Time.deltaTime;
         }
 
-        if  (m_VerticalVelocity < 0f)
+        if (m_VerticalVelocity < 0f)
         {
             if (m_SetPlayerPosition || m_CollidingBottom)
             {
@@ -162,6 +162,8 @@ public class PlayerController : MonoBehaviour
         //        }
         //    }
         //}
+
+        StartCoroutine(CollisionFlicker());
     }
 
     private void FixedUpdate()
@@ -176,8 +178,8 @@ public class PlayerController : MonoBehaviour
         Move(m_Horizontal_Movement, m_Vertical_Movement);
 
         //Player jump physics section
-        
-        
+
+
 
         LayerMask mask = LayerMask.GetMask("Player");
         mask = ~mask;
@@ -245,7 +247,7 @@ public class PlayerController : MonoBehaviour
 
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Terrain")
         {
-           // Debug.Log("We hit the terrain");
+            // Debug.Log("We hit the terrain");
         }
 
         m_CollidingAny = true;
@@ -295,8 +297,8 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingRight = false;
                 }
-                
-                if (Vector3.Distance(contacts[i].point, m_Bottom.position) <  0.3f)
+
+                if (Vector3.Distance(contacts[i].point, m_Bottom.position) < 0.3f)
                 {
                     m_CollidingBottom = true;
                 }
@@ -378,5 +380,55 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private IEnumerator CollisionFlicker()
+    {
+        bool frontCollisionFirst = m_CollidingFront;
+        bool backCollisionFirst = m_CollidingBack;
+        bool leftCollisionFirst = m_CollidingLeft;
+        bool rightCollisionFirst = m_CollidingRight;
+        bool bottomCollisionFirst = m_CollidingBottom;
+
+        yield return new WaitForSeconds(0.1f);
+
+        bool frontCollisionSecond = m_CollidingFront;
+        bool backCollisionSecond = m_CollidingBack;
+        bool leftCollisionSecond = m_CollidingLeft;
+        bool rightCollisionSecond = m_CollidingRight;
+        bool bottomCollisionSecond = m_CollidingBottom;
+
+        yield return new WaitForSeconds(0.1f);
+
+        bool frontCollisionThird = m_CollidingFront;
+        bool backCollisionThird = m_CollidingBack;
+        bool leftCollisionThird = m_CollidingLeft;
+        bool rightCollisionThird = m_CollidingRight;
+        bool bottomCollisionThird = m_CollidingFront;
+
+        yield return new WaitForSeconds(0.1f);
+
+        bool frontCollisionFourth = m_CollidingFront;
+        bool backCollisionFourth = m_CollidingBack;
+        bool leftCollisionFourth = m_CollidingLeft;
+        bool rightCollisionFourth = m_CollidingRight;
+        bool bottomCollisionFourth = m_CollidingBottom;
+
+        yield return new WaitForSeconds(0.1f);
+
+        bool frontCollisionLast = m_CollidingFront;
+        bool backCollisionLast = m_CollidingBack;
+        bool leftCollisionLast = m_CollidingLeft;
+        bool rightCollisionLast = m_CollidingRight;
+        bool bottomCollisionLast = m_CollidingBottom;
+
+        if (frontCollisionFirst != frontCollisionSecond && frontCollisionSecond != frontCollisionThird && frontCollisionThird != frontCollisionFourth && frontCollisionFourth != frontCollisionLast)
+        {
+            Debug.Log("BREAKING THINGS");
+        }
+
+    }
+
+    
 
 }
+
+    
