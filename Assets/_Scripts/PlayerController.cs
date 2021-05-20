@@ -33,7 +33,8 @@ public class PlayerController : MonoBehaviour
 
     private float m_Horizontal_Movement;
     private float m_Vertical_Movement;
-    private float CollisionDistanceCheck = 0.77f;
+    private float CollisionDistanceCheck = 0.75f;
+    private bool m_AllowedToCollide;
 
     private Vector3 m_Move;
     [SerializeField] bool 
@@ -91,6 +92,7 @@ public class PlayerController : MonoBehaviour
         m_Clip = m_Source.clip;
         m_Source.volume = 0.07f;
         m_SetPlayerPosition = false;
+        m_AllowedToCollide = true;
     }
 
     // Update is called once per frame
@@ -180,6 +182,34 @@ public class PlayerController : MonoBehaviour
         //}
 
         StartCoroutine(CollisionFlicker());
+
+        if (m_VerticalVelocity < 0f)
+        {
+            RaycastHit hit;
+
+            LayerMask mask = LayerMask.GetMask("Player");
+            mask = ~mask;
+
+            Physics.Raycast(transform.position, transform.TransformDirection(Vector3.down), out m_hitBottom, Mathf.Infinity, mask);
+
+            if (m_hitBottom.distance <= 1f || m_hitBottom.distance == 1f)
+            {
+                m_IsGrounded = true;
+            }
+            else if (m_hitBottom.distance < 1f)
+            {
+                float difference;
+                Vector3 playerPosition;
+                difference = 1f - m_hitBottom.distance;
+                playerPosition = new Vector3(0f, m_hitBottom.distance + difference, 0f);
+                transform.position += playerPosition;
+                m_IsGrounded = true;
+            }
+            else
+            {
+                m_IsGrounded = false;
+            }
+        }
     }
 
     private void FixedUpdate()
@@ -282,7 +312,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingFront = true;
                 }
-                else if (Vector3.Distance(contacts[i].point, m_Front.position) > CollisionDistanceCheck)
+                else if (Vector3.Distance(contacts[i].point, m_Front.position) > CollisionDistanceCheck && m_AllowedToCollide == true)
                 {
                     m_CollidingFront = false;
                 }
@@ -291,7 +321,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingBack = true;
                 }
-                else if (Vector3.Distance(contacts[i].point, m_Back.position) > CollisionDistanceCheck)
+                else if (Vector3.Distance(contacts[i].point, m_Back.position) > CollisionDistanceCheck && m_AllowedToCollide == true)
                 {
                     m_CollidingBack = false;
                 }
@@ -300,7 +330,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingLeft = true;
                 }
-                else if (Vector3.Distance(contacts[i].point, m_Left.position) > CollisionDistanceCheck)
+                else if (Vector3.Distance(contacts[i].point, m_Left.position) > CollisionDistanceCheck && m_AllowedToCollide == true)
                 {
                     m_CollidingLeft = false;
                 }
@@ -309,7 +339,7 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingRight = true;
                 }
-                else if (Vector3.Distance(contacts[i].point, m_Right.position) > CollisionDistanceCheck)
+                else if (Vector3.Distance(contacts[i].point, m_Right.position) > CollisionDistanceCheck && m_AllowedToCollide == true)
                 {
                     m_CollidingRight = false;
                 }
@@ -328,11 +358,25 @@ public class PlayerController : MonoBehaviour
                     m_CollidingFront = true;
                     m_CollidingLeft = true;
                 }
-                else if (Vector3.Distance(contacts[i].point, m_FrontLeft.position) > CollisionDistanceCheck)
+
+                if (Vector3.Distance(contacts[i].point, m_FrontRight.position) < CollisionDistanceCheck)
                 {
-                    m_CollidingFront = false;
-                    m_CollidingLeft = false;
+                    m_CollidingFront = true;
+                    m_CollidingRight = true;
+                }               
+
+                if (Vector3.Distance(contacts[i].point, m_BackLeft.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingBack = true;
+                    m_CollidingLeft = true;
+                }                
+
+                if (Vector3.Distance(contacts[i].point, m_BackRight.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingBack = true;
+                    m_CollidingRight = true;
                 }
+                
             }
         }
     }
@@ -353,6 +397,7 @@ public class PlayerController : MonoBehaviour
             m_CollidingBottom = false;
         }
 
+        m_AllowedToCollide = true;
         m_CollidingAny = false;
     }
 
@@ -450,24 +495,28 @@ public class PlayerController : MonoBehaviour
         if (frontCollisionFirst != frontCollisionSecond && frontCollisionSecond != frontCollisionThird && frontCollisionThird != frontCollisionFourth && frontCollisionFourth != frontCollisionLast)
         {
             m_CollidingFront = true;
+            m_AllowedToCollide = false;
             Debug.Log("BREAKING FRONT THINGS");
         }
 
         if (backCollisionFirst != backCollisionSecond && backCollisionSecond != backCollisionThird && backCollisionThird != backCollisionFourth && backCollisionFourth != backCollisionLast)
         {
             m_CollidingBottom = true;
+            m_AllowedToCollide = false;
             Debug.Log("BREAKING BACK THINGS");
         }
 
         if (leftCollisionFirst != leftCollisionSecond && leftCollisionSecond != leftCollisionThird && leftCollisionThird != leftCollisionFourth && leftCollisionFourth != leftCollisionLast)
         {
             m_CollidingLeft = true;
+            m_AllowedToCollide = false;
             Debug.Log("BREAKING LEFT THINGS");
         }
 
         if (rightCollisionFirst != rightCollisionSecond && rightCollisionSecond != rightCollisionThird && rightCollisionThird != rightCollisionFourth && rightCollisionFourth != rightCollisionLast)
         {
             m_CollidingRight = true;
+            m_AllowedToCollide = false;
             Debug.Log("BREAKING RIGHT THINGS");
         }
         

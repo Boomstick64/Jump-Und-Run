@@ -23,14 +23,14 @@ public class GameManager : MonoBehaviour
         m_PlayerController = GameObject.Find("Player").GetComponent<PlayerController>();
         m_Slider.maxValue = m_PlayerController.m_MaxHealth;
         m_HealthIndicator.text = "";
-        m_RoundedMaxHealth = UnityEngine.Mathf.Round(m_PlayerController.m_MaxHealth);
+        m_RoundedMaxHealth = ((int)m_PlayerController.m_MaxHealth);
     }
 
     // Update is called once per frame
     void Update()
     {
         m_Slider.value = m_PlayerController.currentHealth;
-        m_RoundedCurrentHealth = UnityEngine.Mathf.Round(m_RoundedCurrentHealth);
+        m_RoundedCurrentHealth = ((int)m_PlayerController.currentHealth);
         m_HealthIndicator.text = "Health: " + m_RoundedCurrentHealth.ToString() + "/" + m_RoundedMaxHealth.ToString();
         if (Input.GetKeyDown(KeyCode.R))
         {
