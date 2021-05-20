@@ -36,13 +36,25 @@ public class PlayerController : MonoBehaviour
     private float CollisionDistanceCheck = 0.77f;
 
     private Vector3 m_Move;
-    [SerializeField] bool m_Colliding, m_CollidingRight, m_CollidingLeft, m_CollidingFront, m_CollidingBack, m_CollidingBottom, m_CollidingAny;
+    [SerializeField] bool 
+    m_Colliding, 
+    m_CollidingRight, 
+    m_CollidingLeft, 
+    m_CollidingFront, 
+    m_CollidingBack, 
+    m_CollidingBottom,
+    m_CollidingAny;
 
-    private Transform m_Front;
-    private Transform m_Back;
-    private Transform m_Left;
-    private Transform m_Right;
-    private Transform m_Bottom;
+    private Transform m_Front, 
+    m_Back, 
+    m_Left, 
+    m_Right, 
+    m_Bottom, 
+    m_FrontLeft, 
+    m_FrontRight, 
+    m_BackLeft, 
+    m_BackRight;
+    
 
     //End of Movement Variables
 
@@ -63,6 +75,10 @@ public class PlayerController : MonoBehaviour
         m_Left = this.gameObject.transform.GetChild(3);
         m_Right = this.gameObject.transform.GetChild(4);
         m_Bottom = this.gameObject.transform.GetChild(5);
+        m_FrontLeft = this.gameObject.transform.GetChild(6);
+        m_FrontRight = this.gameObject.transform.GetChild(7);
+        m_BackLeft = this.gameObject.transform.GetChild(8);
+        m_BackRight = this.gameObject.transform.GetChild(9);
     }
 
     // Start is called before the first frame update
@@ -306,6 +322,17 @@ public class PlayerController : MonoBehaviour
                 {
                     m_CollidingBottom = false;
                 }
+
+                if (Vector3.Distance(contacts[i].point, m_FrontLeft.position) < CollisionDistanceCheck)
+                {
+                    m_CollidingFront = true;
+                    m_CollidingLeft = true;
+                }
+                else if (Vector3.Distance(contacts[i].point, m_FrontLeft.position) > CollisionDistanceCheck)
+                {
+                    m_CollidingFront = false;
+                    m_CollidingLeft = false;
+                }
             }
         }
     }
@@ -422,9 +449,28 @@ public class PlayerController : MonoBehaviour
 
         if (frontCollisionFirst != frontCollisionSecond && frontCollisionSecond != frontCollisionThird && frontCollisionThird != frontCollisionFourth && frontCollisionFourth != frontCollisionLast)
         {
-            Debug.Log("BREAKING THINGS");
+            m_CollidingFront = true;
+            Debug.Log("BREAKING FRONT THINGS");
         }
 
+        if (backCollisionFirst != backCollisionSecond && backCollisionSecond != backCollisionThird && backCollisionThird != backCollisionFourth && backCollisionFourth != backCollisionLast)
+        {
+            m_CollidingBottom = true;
+            Debug.Log("BREAKING BACK THINGS");
+        }
+
+        if (leftCollisionFirst != leftCollisionSecond && leftCollisionSecond != leftCollisionThird && leftCollisionThird != leftCollisionFourth && leftCollisionFourth != leftCollisionLast)
+        {
+            m_CollidingLeft = true;
+            Debug.Log("BREAKING LEFT THINGS");
+        }
+
+        if (rightCollisionFirst != rightCollisionSecond && rightCollisionSecond != rightCollisionThird && rightCollisionThird != rightCollisionFourth && rightCollisionFourth != rightCollisionLast)
+        {
+            m_CollidingRight = true;
+            Debug.Log("BREAKING RIGHT THINGS");
+        }
+        
     }
 
     
