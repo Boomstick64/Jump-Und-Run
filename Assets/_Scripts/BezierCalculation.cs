@@ -4,24 +4,9 @@ using UnityEngine;
 
 public class BezierCalculation : MonoBehaviour
 {
-    public LineRenderer lineRenderer;
-    public Transform point0, point1, point2;
-
-    private int numPoints = 50;
-    private Vector3[] positions = new Vector3[50];
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        lineRenderer.positionCount = numPoints;
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        // DrawQuadraticCurve();
-
-        // Debug.Log(CalculateQuadraticBezierPoint(1, point0.position, point1.position, point2.position));
+        Debug.Log(CalculateQuadraticBeziert(new Vector3(0.3f, 0f, 0f), new Vector3(0f, 0f, 0.5f), new Vector3(0.5f, 0, 0.5f), new Vector3(0.5f, 0f, 0f)));
     }
 
     //private void DrawQuadraticCurve()
@@ -34,18 +19,28 @@ public class BezierCalculation : MonoBehaviour
     //    lineRenderer.SetPositions(positions);
     //}
 
-    //private float CalculateQuadraticBezierPoint(Vector3 p, Vector3 p0, Vector3 p1, Vector3 p2)
-    //{
-    //    // return = (1-t)* itself * P0 + 2*(1-t)*t*P1 + t * itself * P2
-    //    //            u                      u            tt
-    //    //           uu * P0 + 2 * u * t * P1 + tt * P2
-    //    float t;
-    //    float u = 1 - t;
-    //    float tt = t * t;
-    //    float uu = u * u;
-    //    p = uu * p0;
-    //    p += 2 * u * t * p1;
-    //    p += tt * p2;
-    //    return t;
-    //}
+    public Vector3 CalculateQuadraticBezierPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2)
+    {
+        // return = (1-t)* itself * P0 + 2*(1-t)*t*P1 + t * itself * P2
+        //            u                      u            tt
+        //           uu * P0 + 2 * u * t * P1 + tt * P2
+        
+        float u = 1 - t;
+        float tt = t * t;
+        float uu = u * u;
+        Vector3 p;
+        p = uu * p0;
+        p += 2 * u * t * p1;
+        p += tt * p2;
+        return p;
+    }
+
+    public float CalculateQuadraticBeziert(Vector3 p, Vector3 p0, Vector3 p1, Vector3 p2)
+    {
+        float[] t = new float[10];
+        t[0] = (p0.x - p1.x - Mathf.Sqrt(p.x * p0.x - 2 * p.x * p1.x + p.x * p2.x - p0.x * p2.x + Mathf.Pow(p1.x, 2)))/(p0.x - 2 * p1.x + p2.x);
+        t[1] = (p0.x - p1.x + Mathf.Sqrt(p.x * p0.x - 2 * p.x * p1.x + p.x * p2.x - p0.x * p2.x + Mathf.Pow(p1.x, 2))) / (p0.x - 2 * p1.x + p2.x);
+        return t[0];
+        
+    }
 }
