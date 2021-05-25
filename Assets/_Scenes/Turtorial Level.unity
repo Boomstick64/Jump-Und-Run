@@ -287,6 +287,7 @@ GameObject:
   - component: {fileID: 464519888}
   - component: {fileID: 464519886}
   - component: {fileID: 464519892}
+  - component: {fileID: 464519887}
   m_Layer: 0
   m_Name: Enemy Test 1
   m_TagString: Untagged
@@ -316,6 +317,22 @@ NavMeshAgent:
   m_BaseOffset: 1
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!54 &464519887
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464519885}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!136 &464519888
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -706,10 +723,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2d7756633384e64b8ea136cc335775e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lineRenderer: {fileID: 791941726}
-  point0: {fileID: 1342088056}
-  point1: {fileID: 1524701397}
-  point2: {fileID: 1451640143}
 --- !u!1 &819387095
 GameObject:
   m_ObjectHideFlags: 0

@@ -15,11 +15,11 @@ C:/Users/Thomas Neil Tidy/Documents/Git/Jump Und Run
 -logFile
 Logs/AssetImportWorker0.log
 -srvPort
-53369
+60658
 Successfully changed project path to: C:/Users/Thomas Neil Tidy/Documents/Git/Jump Und Run
 C:/Users/Thomas Neil Tidy/Documents/Git/Jump Und Run
 Using Asset Import Pipeline V2.
-Refreshing native plugins compatible for Editor in 21.28 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 24.42 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 2020.2.6f1 (8a2143876886)
 [Subsystems] Discovering subsystems at path C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/Resources/UnitySubsystems
@@ -35,164 +35,81 @@ Initialize mono
 Mono path[0] = 'C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/Managed'
 Mono path[1] = 'C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/MonoBleedingEdge/lib/mono/unityjit'
 Mono config path = 'C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56752
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56632
 Begin MonoManager ReloadAssembly
 Registering precompiled unity dll's ...
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/PlaybackEngines/WebGLSupport/UnityEditor.WebGL.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/PlaybackEngines/MacStandaloneSupport/UnityEditor.OSXStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll
 Register platform support module: C:/Program Files/Unity/Hub/Editor/2020.2.6f1/Editor/Data/PlaybackEngines/LinuxStandaloneSupport/UnityEditor.LinuxStandalone.Extensions.dll
-Registered in 0.002872 seconds.
+Registered in 0.002859 seconds.
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 21.58 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 32.05 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  1.368 seconds
+- Completed reload, in  1.443 seconds
 Platform modules already initialized, skipping
 Registering precompiled user dll's ...
-Registered in 0.000904 seconds.
+Registered in 0.000613 seconds.
 Begin MonoManager ReloadAssembly
 Native extension for LinuxStandalone target not found
 Native extension for WindowsStandalone target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 27.15 ms, found 0 plugins.
+Refreshing native plugins compatible for Editor in 22.35 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Invoked RoslynAnalysisRunner static constructor.
 RoslynAnalysisRunner will not be running.
 RoslynAnalysisRunner has terminated.
 Mono: successfully reloaded assembly
-- Completed reload, in  0.795 seconds
+- Completed reload, in  0.765 seconds
 Platform modules already initialized, skipping
 ========================================================================
 Worker process is ready to serve import requests
 Launched and connected shader compiler UnityShaderCompiler.exe after 0.04 seconds
-Refreshing native plugins compatible for Editor in 0.28 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1225 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 80.1 MB.
-System memory in use after: 80.2 MB.
-
-Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 1692.
-Total: 1.633700 ms (FindLiveObjects: 0.177200 ms CreateObjectMapping: 0.124100 ms MarkObjects: 1.259100 ms  DeleteObjects: 0.071600 ms)
-
-========================================================================
-Received Import Request.
-  path: Assets/_Scripts/PlayerController.cs
-  artifactKey: Guid(2865361ed2ec7244c888f1bf57a259f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/PlayerController.cs using Guid(2865361ed2ec7244c888f1bf57a259f1) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3957655a081a9575f126e55c714b49b1') in 0.036242 seconds
-  Import took 0.038128 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000325 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e852562812102fa1f756777e0fec0603') in 0.001895 seconds
-  Import took 0.003450 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 153.654037 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c5524805b892b3601ae40117c5525b69') in 0.001852 seconds
-  Import took 0.003810 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.074150 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'c5524805b892b3601ae40117c5525b69') in 0.001605 seconds
-  Import took 0.003357 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 9.591821 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b7a261ea0d606872841d1d30d8267162') in 0.001672 seconds
-  Import took 0.003385 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000830 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'b7a261ea0d606872841d1d30d8267162') in 0.001490 seconds
-  Import took 0.002943 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 608.835952 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c6808c5bd9f838e9650ac5503eea62c') in 0.001738 seconds
-  Import took 0.003478 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.025530 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '5c6808c5bd9f838e9650ac5503eea62c') in 0.001890 seconds
-  Import took 0.004126 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 23.179946 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '3b27d4871ee2a1c6a9bccdba9e807192') in 0.004047 seconds
-  Import took 0.006445 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 6.438329 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e17214d1c287fd802a893a57f2e0e9e6') in 0.001881 seconds
-  Import took 0.003586 seconds .
-
-========================================================================
-Received Import Request.
-  Time since last request: 0.000499 seconds.
-  path: Assets/_Scripts/BezierCalculation.cs
-  artifactKey: Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
-Start importing Assets/_Scripts/BezierCalculation.cs using Guid(c2d7756633384e64b8ea136cc335775e) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'e17214d1c287fd802a893a57f2e0e9e6') in 0.001822 seconds
-  Import took 0.003685 seconds .
-
-========================================================================
-Received Prepare
-Registering precompiled user dll's ...
-Registered in 0.000647 seconds.
-Begin MonoManager ReloadAssembly
-Native extension for LinuxStandalone target not found
-Native extension for WindowsStandalone target not found
-Native extension for OSXStandalone target not found
-Native extension for WebGL target not found
-Refreshing native plugins compatible for Editor in 0.21 ms, found 0 plugins.
-Preloading 0 native plugins for Editor in 0.00 ms.
-Invoked RoslynAnalysisRunner static constructor.
-RoslynAnalysisRunner will not be running.
-RoslynAnalysisRunner has terminated.
-Mono: successfully reloaded assembly
-- Completed reload, in  0.664 seconds
-Platform modules already initialized, skipping
 Refreshing native plugins compatible for Editor in 0.20 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
-Unloading 1220 Unused Serialized files (Serialized files now loaded: 0)
-System memory in use before: 80.1 MB.
-System memory in use after: 80.1 MB.
+Unloading 1226 Unused Serialized files (Serialized files now loaded: 0)
+System memory in use before: 80.2 MB.
+System memory in use after: 80.3 MB.
 
-Unloading 5 unused Assets to reduce memory usage. Loaded Objects now: 1694.
-Total: 1.603500 ms (FindLiveObjects: 0.137300 ms CreateObjectMapping: 0.037700 ms MarkObjects: 1.365700 ms  DeleteObjects: 0.062000 ms)
+Unloading 9 unused Assets to reduce memory usage. Loaded Objects now: 1694.
+Total: 1.538300 ms (FindLiveObjects: 0.117100 ms CreateObjectMapping: 0.032400 ms MarkObjects: 1.311900 ms  DeleteObjects: 0.076000 ms)
 
-AssetImportWorkerClient::OnTransportError - code=2 error=End of file
+========================================================================
+Received Import Request.
+  path: Assets/Assets.index
+  artifactKey: Guid(f517abc25fa9cf7438a5e6784d67bb2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Assets.index using Guid(f517abc25fa9cf7438a5e6784d67bb2b) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '8db7e92c3a2e236a92076fb8df89ce58') in 0.072884 seconds
+  Import took 0.074948 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 5.364848 seconds.
+  path: Assets/_Scenes/Main menu.unity
+  artifactKey: Guid(11a84d6cc7cb07c47bf737c885612d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Scenes/Main menu.unity using Guid(11a84d6cc7cb07c47bf737c885612d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '603b3214937dd4c1505fa2634d8e418f') in 0.002064 seconds
+  Import took 0.004239 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 0.000971 seconds.
+  path: Assets/_Scenes/Main menu.unity
+  artifactKey: Guid(11a84d6cc7cb07c47bf737c885612d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Scenes/Main menu.unity using Guid(11a84d6cc7cb07c47bf737c885612d20) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '603b3214937dd4c1505fa2634d8e418f') in 0.001843 seconds
+  Import took 0.003479 seconds .
+
+========================================================================
+Received Import Request.
+  Time since last request: 8.658756 seconds.
+  path: Assets/_Scripts/Managers/MenuManager.cs
+  artifactKey: Guid(aa16cfdfbb73c8449872a0373d5df6e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/_Scripts/Managers/MenuManager.cs using Guid(aa16cfdfbb73c8449872a0373d5df6e8) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '01cd8af94ee213dc234a234c5202fc05') in 0.005248 seconds
+  Import took 0.007315 seconds .
+

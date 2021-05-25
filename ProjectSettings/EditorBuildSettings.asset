@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/_Scenes/Main menu.unity
+    guid: 11a84d6cc7cb07c47bf737c885612d20
+  - enabled: 1
+    path: Assets/_Scenes/Turtorial Level.unity
+    guid: de5cd8a26b645f540ad10ec4d69bb6f5
   m_configObjects: {}
