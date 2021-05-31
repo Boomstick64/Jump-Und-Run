@@ -6,7 +6,7 @@ public class BezierCalculation : MonoBehaviour
 {
     private void Update()
     {
-        Debug.Log(CalculateQuadraticBeziert(new Vector3(0.3f, 0f, 0f), new Vector3(0f, 0f, 0.5f), new Vector3(0.5f, 0, 0.5f), new Vector3(0.5f, 0f, 0f)));
+       // Debug.Log(CalculateQuadraticBeziert(new Vector3(0.3f, 0f, 0f), new Vector3(0f, 0f, 0.5f), new Vector3(0.5f, 0, 0.5f), new Vector3(0.5f, 0f, 0f)));
     }
 
     //private void DrawQuadraticCurve()

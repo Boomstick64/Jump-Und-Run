@@ -14,7 +14,11 @@ public class PlayerController : MonoBehaviour
     private float m_AirTimeToDamage = 2;
     private bool m_ToDamage;
 
-    public float currentHealth { get { return m_CurrentHealth; } }
+    public float currentHealth 
+    { 
+        get { return m_CurrentHealth; } 
+        set { m_CurrentHealth = value; }
+    }
 
     // Declaring a public float for turning left to right
     public float m_HorizontalTurn;
@@ -180,6 +184,11 @@ public class PlayerController : MonoBehaviour
         //        }
         //    }
         //}
+
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
 
         StartCoroutine(CollisionFlicker());
 

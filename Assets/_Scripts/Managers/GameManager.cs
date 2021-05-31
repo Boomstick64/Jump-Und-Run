@@ -38,5 +38,10 @@ public class GameManager : MonoBehaviour
             Resources.UnloadUnusedAssets();
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); 
         }
+
+        if (m_PlayerController.currentHealth <= 0f)
+        {
+            Application.Quit();
+        }
     }
 }
